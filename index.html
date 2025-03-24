@@ -3,388 +3,536 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Report Card</title>
-    <!-- BootCss -->
+    <title>Report Card Generator</title>
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Theme CSS -->
+    <link rel="stylesheet" type="text/css" href="css/themes/themes.css">
+    <!-- Main CSS -->
     <link rel="stylesheet" type="text/css" href="style.css">
+    
+    <!-- External Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.debug.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2pdf.js/dist/html2pdf.bundle.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js" defer></script>
+    
+    <!-- Core Scripts -->
     <script type="text/javascript" src="script.js" defer></script>
+    
+    <!-- Feature Scripts -->
+    <script type="text/javascript" src="js/templates.js" defer></script>
+    <script type="text/javascript" src="js/grading.js" defer></script>
+    <script type="text/javascript" src="js/charts/performance-charts.js" defer></script>
+    <script type="text/javascript" src="js/export/bulk-export.js" defer></script>
+    <script type="text/javascript" src="js/auth/auth.js" defer></script>
+    <script type="text/javascript" src="js/auth/sharing.js" defer></script>
   </head>
   <body>
-    <!-- 1st section -->
-    <section id="title">
-      <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-          <a class="navbar-brand brand-text" href="#">Report Carder</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="#std_input_table">Get started</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#features">Features</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#contacts">Contact</a>
-              </li>
-            </ul>
+    <!-- Main Container - Will be hidden until login -->
+    <div class="container">
+      <!-- 1st section -->
+      <section id="title">
+        <div class="container">
+          <nav class="navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand brand-text" href="#">Report Carder</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="#std_input_table"><i class="fas fa-edit me-1"></i> Get Started</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#features"><i class="fas fa-star me-1"></i> Features</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#contacts"><i class="fas fa-envelope me-1"></i> Contact</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="user-profile-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user-circle me-1"></i> <span id="user-name-display">Account</span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-profile-link">
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </nav>
+          <div class="row align-items-center">
+            <div class="col-lg-6">
+              <h1>Generate Professional Report Cards Instantly</h1>
+              <p class="lead text-white mb-4">Create, customize, and export beautiful report cards in PDF format or print them directly.</p>
+              <a type="button" href="#input-section" class="btn btn-light btn-lg title-btn">
+                <i class="fas fa-file-alt me-2"></i> Create Report Card
+              </a>
+            </div>
+            <div class="col-lg-6">
+              <img class="rc-img" src="rc.jpg" alt="Report Card Image">
+            </div>
           </div>
-        </nav>
+        </div>
+      </section>
+      
+      <section id="features">
+        <div class="container">
+          <h2 class="text-center mb-5 feature-section-title">Premium Features</h2>
+          <div class="row">
+            <div class="col-lg-4 mb-4">
+              <div class="feature-box">
+                <i class="fas fa-magic feature-icon"></i>
+                <h3 class="feature-title">Easy to Use</h3>
+                <p class="feature-text">Intuitive interface that makes creating report cards simple and efficient. No technical skills required.</p>
+              </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+              <div class="feature-box">
+                <i class="fas fa-wifi-slash feature-icon"></i>
+                <h3 class="feature-title">Works Offline</h3>
+                <p class="feature-text">Once loaded, the application works without internet connection, ensuring you can work anywhere.</p>
+              </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+              <div class="feature-box">
+                <i class="fas fa-file-pdf feature-icon"></i>
+                <h3 class="feature-title">PDF Export</h3>
+                <p class="feature-text">Export your report cards as professional PDF documents that are ready to share or print.</p>
+              </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+              <div class="feature-box">
+                <i class="fas fa-chart-line feature-icon"></i>
+                <h3 class="feature-title">Performance Analytics</h3>
+                <p class="feature-text">Visualize student performance with beautiful charts and graphs for better insights.</p>
+              </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+              <div class="feature-box">
+                <i class="fas fa-users feature-icon"></i>
+                <h3 class="feature-title">Bulk Processing</h3>
+                <p class="feature-text">Generate multiple report cards at once by importing student data from CSV or Excel files.</p>
+              </div>
+            </div>
+            <div class="col-lg-4 mb-4">
+              <div class="feature-box">
+                <i class="fas fa-palette feature-icon"></i>
+                <h3 class="feature-title">Customizable Templates</h3>
+                <p class="feature-text">Choose from multiple templates or customize your own to match your school's branding.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Form Section -->
+      <section id="input-section" class="py-5">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-10">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="m-0 text-center">Student Information</h3>
+                </div>
+                <div class="card-body">
+                  <form id="student-info-form">
+                    <div class="row mb-4">
+                      <div class="col-md-6 mb-3">
+                        <label for="school" class="form-label">School</label>
+                        <div class="input-group">
+                          <span class="input-group-text"><i class="fas fa-school"></i></span>
+                          <input type="text" class="form-control i-school" id="school" placeholder="School name">
+                        </div>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="student-name" class="form-label">Student Name</label>
+                        <div class="input-group">
+                          <span class="input-group-text"><i class="fas fa-user-graduate"></i></span>
+                          <input type="text" class="form-control i-name" id="student-name" placeholder="Full name">
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                      <div class="col-md-4 mb-3">
+                        <label for="roll-no" class="form-label">Roll No.</label>
+                        <div class="input-group">
+                          <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                          <input type="text" class="form-control i-roll" id="roll-no" placeholder="Roll number">
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label for="class-select" class="form-label">Class</label>
+                        <div class="input-group">
+                          <span class="input-group-text"><i class="fas fa-chalkboard"></i></span>
+                          <select class="form-select i-class" id="class-select">
+                            <option value="I">Class 1</option>
+                            <option value="II">Class 2</option>
+                            <option value="III">Class 3</option>
+                            <option value="IV">Class 4</option>
+                            <option value="V">Class 5</option>
+                            <option value="VI">Class 6</option>
+                            <option value="VII">Class 7</option>
+                            <option value="VIII">Class 8</option>
+                            <option value="IX">Class 9</option>
+                            <option value="X">Class 10</option>
+                            <option value="XI">Class 11</option>
+                            <option value="XII">Class 12</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label for="section" class="form-label">Section</label>
+                        <div class="input-group">
+                          <span class="input-group-text"><i class="fas fa-layer-group"></i></span>
+                          <input type="text" class="form-control i-sec" id="section" placeholder="Section">
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                      <div class="col-md-4 mb-3">
+                        <label for="gender-select" class="form-label">Gender</label>
+                        <div class="input-group">
+                          <span class="input-group-text"><i class="fas fa-venus-mars"></i></span>
+                          <select class="form-select i-gender" id="gender-select">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label for="father-name" class="form-label">Father's Name</label>
+                        <div class="input-group">
+                          <span class="input-group-text"><i class="fas fa-user"></i></span>
+                          <input type="text" class="form-control i-father" id="father-name" placeholder="Father's name">
+                        </div>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                        <label for="mobile" class="form-label">Mobile Number</label>
+                        <div class="input-group">
+                          <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                          <input type="text" class="form-control i-mob" id="mobile" placeholder="Mobile number">
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    <h4 class="mb-4">Subject Marks</h4>
+                    
+                    <div class="row mb-4">
+                      <div class="col-md-4">
+                        <div class="card h-100">
+                          <div class="card-header bg-light">
+                            <h5 class="m-0">Physics</h5>
+                          </div>
+                          <div class="card-body">
+                            <div class="mb-3">
+                              <label for="physics-total" class="form-label">Total Marks</label>
+                              <input type="number" class="form-control i-p-total" id="physics-total" placeholder="Total marks">
+                            </div>
+                            <div class="mb-0">
+                              <label for="physics-secured" class="form-label">Secured Marks</label>
+                              <input type="number" class="form-control i-p-sec" id="physics-secured" value="0">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-4">
+                        <div class="card h-100">
+                          <div class="card-header bg-light">
+                            <h5 class="m-0">Chemistry</h5>
+                          </div>
+                          <div class="card-body">
+                            <div class="mb-3">
+                              <label for="chemistry-total" class="form-label">Total Marks</label>
+                              <input type="number" class="form-control i-c-total" id="chemistry-total" placeholder="Total marks">
+                            </div>
+                            <div class="mb-0">
+                              <label for="chemistry-secured" class="form-label">Secured Marks</label>
+                              <input type="number" class="form-control i-c-sec" id="chemistry-secured" value="0">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-4">
+                        <div class="card h-100">
+                          <div class="card-header bg-light">
+                            <h5 class="m-0">Mathematics</h5>
+                          </div>
+                          <div class="card-body">
+                            <div class="mb-3">
+                              <label for="math-total" class="form-label">Total Marks</label>
+                              <input type="number" class="form-control i-math-total" id="math-total" placeholder="Total marks">
+                            </div>
+                            <div class="mb-0">
+                              <label for="math-secured" class="form-label">Secured Marks</label>
+                              <input type="number" class="form-control i-math-sec" id="math-secured" value="0">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                      <div class="col-md-4">
+                        <label for="result-select" class="form-label">Result</label>
+                        <div class="input-group">
+                          <span class="input-group-text"><i class="fas fa-graduation-cap"></i></span>
+                          <select class="form-select i-res" id="result-select">
+                            <option value="PASS">PASS</option>
+                            <option value="FAIL">FAIL</option>
+                            <option value="ABSENT">ABSENT</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="row">
+                      <div class="col-md-4 mb-3">
+                        <button type="button" class="btn btn-danger w-100" onclick="reset_table()">
+                          <i class="fas fa-redo-alt me-2"></i> Reset Form
+                        </button>
+                      </div>
+                      <div class="col-md-8 mb-3">
+                        <button type="button" class="btn btn-primary w-100" onclick="send_data_for_print()">
+                          <i class="fas fa-check-circle me-2"></i> Generate Report Card
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <div class="row mt-4">
+                      <div class="col-md-6 mb-3">
+                        <div class="card">
+                          <div class="card-header bg-light">
+                            <h5 class="m-0">Download PDF</h5>
+                          </div>
+                          <div class="card-body d-flex gap-2">
+                            <button type="button" class="btn btn-outline-primary flex-grow-1" onclick="GenerateCard()">
+                              <i class="fas fa-file-pdf me-2"></i> Color
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary flex-grow-1" onclick="GenerateCard_bw()">
+                              <i class="fas fa-file me-2"></i> Black & White
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <div class="card">
+                          <div class="card-header bg-light">
+                            <h5 class="m-0">Print Report</h5>
+                          </div>
+                          <div class="card-body d-flex gap-2">
+                            <button type="button" class="btn btn-outline-primary flex-grow-1" onclick="print_report_card()">
+                              <i class="fas fa-print me-2"></i> Color
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary flex-grow-1" onclick="print_report_card_bw()">
+                              <i class="fas fa-print me-2"></i> Black & White
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Report Card Section -->
+      <section id="report-card-section" class="container mt-5">
         <div class="row">
-          <div class="col-lg-6">
-            <h1>Generate report card immidietly.<br><br>PDF | PRINT</h1>
-            <a type="button" href="#std_input_table" class="btn btn-light btn-lg title-btn"><i class="material-icons title-icons">
-              create
-            </i> Create</a>
+          <div class="col-md-8">
+            <div class="card">
+              <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h2 class="m-0">Report Card</h2>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-light btn-sm" onclick="GenerateCard()">
+                    <i class="fas fa-file-pdf me-1"></i> Download PDF
+                  </button>
+                  <button type="button" class="btn btn-light btn-sm" onclick="print_report_card()">
+                    <i class="fas fa-print me-1"></i> Print
+                  </button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div id="report-card-HTML" class="mx-auto">
+                  <div class="report-card-content">
+                    <div class="school-header text-center mb-4">
+                      <h1 class="school-title">TETRAHEDRON JUNIOR SCIENCE COLLEGE</h1>
+                      <p class="school-subtitle">Academic Year 2023-24</p>
+                    </div>
+                    
+                    <div class="student-info mb-4">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <table class="student-details-table">
+                            <tr>
+                              <th>Name:</th>
+                              <td id="p-name">Subhranshu Choudhury</td>
+                            </tr>
+                            <tr>
+                              <th>Roll No:</th>
+                              <td id="p-roll">036AC2021</td>
+                            </tr>
+                            <tr>
+                              <th>Class:</th>
+                              <td id="p-class">12</td>
+                            </tr>
+                            <tr>
+                              <th>Section:</th>
+                              <td id="p-section">IT-1</td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="col-md-6">
+                          <table class="student-details-table">
+                            <tr>
+                              <th>Gender:</th>
+                              <td id="p-gender">Male</td>
+                            </tr>
+                            <tr>
+                              <th>Father's Name:</th>
+                              <td id="p-father">Harapriya Choudhury</td>
+                            </tr>
+                            <tr>
+                              <th>Mobile:</th>
+                              <td id="p-mobile">8249587552</td>
+                            </tr>
+                            <tr>
+                              <th>Result:</th>
+                              <td id="p-result">PASS</td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="marks-table mb-4">
+                      <h3 class="text-center mb-3">Mark Distribution</h3>
+                      <table class="table table-bordered">
+                        <thead class="table-primary">
+                          <tr>
+                            <th>Subject</th>
+                            <th>Total Marks</th>
+                            <th>Marks Secured</th>
+                            <th>Percentage</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="subject-name">Physics</td>
+                            <td id="p-phy-total">100</td>
+                            <td id="p-phy-mark">100</td>
+                            <td id="p-phy-percent">100%</td>
+                          </tr>
+                          <tr>
+                            <td class="subject-name">Chemistry</td>
+                            <td id="p-chem-total">100</td>
+                            <td id="p-chem-mark">100</td>
+                            <td id="p-chem-percent">100%</td>
+                          </tr>
+                          <tr>
+                            <td class="subject-name">Mathematics</td>
+                            <td id="p-math-total">100</td>
+                            <td id="p-math-mark">100</td>
+                            <td id="p-math-percent">100%</td>
+                          </tr>
+                          <tr class="table-info">
+                            <td><strong>Total</strong></td>
+                            <td id="p-total-mark">300</td>
+                            <td id="p-secured-mark">300</td>
+                            <td id="p-percentage">100%</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    
+                    <div class="signatures mt-4">
+                      <div class="row">
+                        <div class="col-md-4 text-center">
+                          <div class="signature-box">
+                            <div class="sign-line"></div>
+                            <p>Class Teacher</p>
+                          </div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                          <div class="signature-box">
+                            <div class="sign-line"></div>
+                            <p>Principal</p>
+                          </div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                          <div class="signature-box">
+                            <div class="sign-line"></div>
+                            <p>Parent's Signature</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="col-lg-6">
-            <img class="rc-img" src="rc.jpg" alt="Report Card Image">
+          
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-header bg-success text-white">
+                <h3 class="m-0">Performance Analysis</h3>
+              </div>
+              <div class="card-body">
+                <div class="chart-container mb-4">
+                  <canvas id="subjectComparisonChart"></canvas>
+                </div>
+                <div class="chart-container mb-4">
+                  <canvas id="performanceRadarChart"></canvas>
+                </div>
+                <div class="chart-container">
+                  <canvas id="gradeDistributionChart"></canvas>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- title name and a picture and button -->
-      
-    </section>
-    <section id="features">
-      <div class="row">
-        <div class="col-lg-4"><i class="material-icons icons">emoji_emotions</i>
-          <h3>Easy to use.</h3>
-          <p>So easy to use, just type.</p>
-        </div>
-        <div class="col-lg-4"><i class="material-icons icons">wifi_off</i>
-          <h3>Works in offline</h3>
-          <p>Once the site load, no need of internet.</p>
-        </div>
-        <div class="col-lg-4"><i class="material-icons icons">picture_as_pdf</i>
-          <h3>Download report as PDF</h3>
-          <p>Instant convert to pdf, you can print.</p>
-        </div>
-      </div>
-    </section>
-    <!-- Form Section -->
-    <table class="input-form" id="std_input_table" style="width: 100%;">
-      <colgroup>
-      <col span="1" style="width: 20%;">
-      <col span="1" style="width: auto;">
-      </colgroup>
-      <tr>
-        <th colspan="2" style="font-size: 25px;">INPUT DATA HERE</th>
-      </tr>
-      <tr>
-        <td>School</td>
-        <td><input type="text" name="" placeholder="School name" class="i-school"></td>
-      </tr>
-      <tr>
-        <td>Student Name</td>
-        <td><input type="text" name="" placeholder="Full name" class="i-name"></td>
-      </tr>
-      <tr>
-        <td>Roll No.</td>
-        <td><input type="text" name="" placeholder="Roll no" class="i-roll"></td>
-      </tr>
-      <tr>
-        <td>Class</td>
-        <td>
-          <select class="i-class">
-            <option value="I">Class 1</option>
-            <option value="II">Class 2</option>
-            <option value="III">Class 3</option>
-            <option value="IV">Class 4</option>
-            <option value="V">Class 5</option>
-            <option value="VI">Class 6</option>
-            <option value="VII">Class 7</option>
-            <option value="VIII">Class 8</option>
-            <option value="IX">Class 9</option>
-            <option value="X">Class 10</option>
-            <option value="XI">Class 11</option>
-            <option value="XII">Class 12</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td>Gender</td>
-        <td>
-          <select class="i-gender">
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td>Section</td>
-        <td><input type="text" name="" placeholder="Section" class="i-sec"></td>
-      </tr>
-      <tr>
-        <td>Father Name</td>
-        <td><input type="text" name="" placeholder="Father's name" class="i-father"></td>
-      </tr>
-      <tr>
-        <td>Mobile No.</td>
-        <td><input type="text" name="" placeholder="Mobile no" class="i-mob"></td>
-      </tr>
-      <tr>
-        <td>Physics Total</td>
-        <td><input type="number" name="" placeholder="Physics total" class="i-p-total"></td>
-      </tr>
-      <tr>
-        <td>Physics Secured</td>
-        <td><input type="number" value="0" name="" class="i-p-sec"></td>
-      </tr>
-      <tr>
-        <td>Chemistry Total</td>
-        <td><input type="number" name="" placeholder="Chemistry total" class="i-c-total"></td>
-      </tr>
-      <tr>
-        <td>Chemistry Secured</td>
-        <td><input type="number" value="0" name="" class="i-c-sec"></td>
-      </tr>
-      <tr>
-        <td>Math Total</td>
-        <td><input type="number" name="" placeholder="Math total" class="i-math-total"></td>
-      </tr>
-      <tr>
-        <td>Math Secured</td>
-        <td><input type="number" value="0" name="" class="i-math-sec"></td>
-      </tr>
-      <tr>
-        <td>Result</td>
-        <td>
-          <select class="i-res">
-            <option value="PASS">PASS</option>
-            <option value="FAIL">FAIL</option>
-            <option value="ABSENT">ABSENT</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <th><button style="color: red;width: 70%" onclick="reset_table();">RESET</button></th>
-        <th><input onclick="send_data_for_print()" type="submit" value="SUBMIT DATA" name=""></th>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <th>Download</th>
-        <td>
-          <button style="margin-right: 30px;padding: 5px;" onclick="GenerateCard()">PDF(C)</button>
-          <button style="margin-top: 10px; margin-right: 30px; padding: 5px;" onclick="GenerateCard_bw()">PDF(B&W)</button>
-        </td>
-      </tr>
-      <tr>
-        <th>Print</th>
-        <td>
-          <button style="padding: 5px;width: 40%;" onclick="print_report_card()">PRINT(C)</button>
-          <button style="padding: 5px;width: 40%;" onclick="print_report_card_bw()">PRINT(B/W)</button>
-        </td>
-      </tr>
-    </table>
-    
-    <!-- Pdf generate section -->
-    <hr>
-    <h3 style="text-align: center;">TYPE: COLOUR</h3 style="text-align: center;">
-    <hr>
-    <div id="report-card-HTML">
-      <p class="school-title">TETRAHEDRON JUNIOR SCIENCE COLLEGE</p>
-      <center>
-      <table id="report-table">
-        <tr>
-          <th colspan="2">STUDENT DETAILS</th>
-        </tr>
-        <tr>
-          <th colspan="2"></th>
-        </tr>
-        <tr>
-          <th>NAME :</th>
-          <th id="p-name">Subhranshu Choudhury</th>
-        </tr>
-        
-        <tr>
-          <td>Class :</td>
-          <td id="p-class">12</td>
-        </tr>
-        <tr>
-          <td>Roll No :</td>
-          <td id="p-roll">036AC2021</td>
-        </tr>
-        <tr>
-          <td>Section :</td>
-          <td id="p-section">IT-1</td>
-        </tr>
-        <tr>
-          <td>Gender: </td>
-          <td id="p-gender">Male</td>
-        </tr>
-        <tr>
-          <td>Father :</td>
-          <td id="p-father">Harapriya Choudhury</td>
-        </tr>
-        <tr>
-          <td>Mobile :</td>
-          <td id="p-mobile">8249587552</td>
-        </tr>
-        
-      </table>
-      <table id="report-table">
-        <tr>
-          <th colspan="3">MARK DISTRIBUTION</th>
-        </tr>
-        <tr>
-          <th colspan="3"></th>
-        </tr>
-        <tr>
-          <th>SUBJECTS</th>
-          <th>TOTAL</th>
-          <th>SECURED</th>
-        </tr>
-        <tr>
-          <td>PHYSICS</td>
-          <td id="p-phy-total">100</td>
-          <td id="p-phy-mark">100</td>
-        </tr>
-        <tr>
-          <td>CHEMISTRY</td>
-          <td id="p-chem-total">100</td>
-          <td id="p-chem-mark">100</td>
-        </tr>
-        <tr>
-          <td>MATH</td>
-          <td id="p-math-total">100</td>
-          <td id="p-math-mark">100</td>
-        </tr>
-        <tr>
-          <th colspan="2">RESULT</th>
-          <td id="p-result">100</td>
-        </tr>
-        <tr>
-          <th colspan="2">TOTAL MARKS</th>
-          <td id="p-total-mark">300</td>
-        </tr>
-        <tr>
-          <th colspan="2">PERCENTAGE %</th>
-          <td id="p-percentage">100%</td>
-        </tr>
-      </table>
-      <h6 style="color: grey;">@made by <a href="https://peerlist.io/subhranshu">SSC</a></h6>
-      </center>
-      
-    </div>
-    <hr>
-    <h3 style="text-align: center;">TYPE: B/W</h3>
-    <hr>
-    <!-- Pdf Black and White -->
-    <div class="table_bw-div">
+      </section>
       
       <center>
-      <b style="font-size: 23px;" class="school-title_bw">TETRAHEDRON JUNIOR SCIENCE COLLEGE</b><br><p>REPORT CARD</p>
-      <table class="table_bw">
-        <tr>
-          <th colspan="2">STUDENT DETAILS</th>
-        </tr>
-        <tr>
-          <th colspan="2"></th>
-        </tr>
-        <tr>
-          <th>NAME :</th>
-          <th class="p-name">Subhranshu Choudhury</th>
-        </tr>
-        
-        <tr>
-          <td>Class :</td>
-          <td class="p-class">12</td>
-        </tr>
-        <tr>
-          <td>Roll No :</td>
-          <td class="p-roll">036AC2021</td>
-        </tr>
-        <tr>
-          <td>Section :</td>
-          <td class="p-section">IT-1</td>
-        </tr>
-        <tr>
-          <td>Gender: </td>
-          <td class="p-gender">Male</td>
-        </tr>
-        <tr>
-          <td>Father :</td>
-          <td class="p-father">Harapriya Choudhury</td>
-        </tr>
-        <tr>
-          <td>Mobile :</td>
-          <td class="p-mobile">8249587552</td>
-        </tr>
-        
-      </table>
-      <table class="table_bw">
-        <tr>
-          <th colspan="3">MARK DISTRIBUTION</th>
-        </tr>
-        <tr>
-          <th colspan="3"></th>
-        </tr>
-        <tr>
-          <th>SUBJECTS</th>
-          <th>TOTAL</th>
-          <th>SECURED</th>
-        </tr>
-        <tr>
-          <td>PHYSICS</td>
-          <td class="p-phy-total">100</td>
-          <td class="p-phy-mark">85</td>
-        </tr>
-        <tr>
-          <td>CHEMISTRY</td>
-          <td class="p-chem-total">100</td>
-          <td class="p-chem-mark">90</td>
-        </tr>
-        <tr>
-          <td>MATH</td>
-          <td class="p-math-total">100</td>
-          <td class="p-math-mark">78</td>
-        </tr>
-        <tr>
-          <th colspan="2">RESULT</th>
-          <td class="p-result">100</td>
-        </tr>
-        <tr>
-          <th colspan="2">TOTAL MARKS</th>
-          <td class="p-total-mark">300</td>
-        </tr>
-        <tr>
-          <th colspan="2">PERCENTAGE %</th>
-          <td class="p-percentage">100%</td>
-        </tr>
-      </table>
-      <h6 style="color: grey;">@made by <a href="https://peerlist.io/subhranshu">SSC</a></h6>
-      </center>
-      
+      <div class="footer" id="contacts">
+        <a href="mailto:subhransuchoudhury00@gmail.com"><i class="material-icons">
+          email
+        </i></a>
+        <a href="https://github.com/subhranshuchoudhury"><i class="material-icons">
+          code
+        </i></a>
+        <a href="https://peerlist.io/subhranshu"><i class="material-icons">
+          account_circle
+        </i></a>
+        <br>
+        <p>@subhranshu choudhury, 918249587552</p>
+      </div>
+    </center>
     </div>
-    <hr><hr>
-    
-    <center>
-    <div class="footer" id="contacts">
-      <a href="mailto:subhransuchoudhury00@gmail.com"><i class="material-icons">
-        email
-      </i></a>
-      <a href="https://github.com/subhranshuchoudhury"><i class="material-icons">
-        code
-      </i></a>
-      <a href="https://peerlist.io/subhranshu"><i class="material-icons">
-        account_circle
-      </i></a>
-      <br>
-      <p>@subhranshu choudhury, 918249587552</p>
-    </div>
-  </section>
-  </center>
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-</body>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  </body>
 </html>

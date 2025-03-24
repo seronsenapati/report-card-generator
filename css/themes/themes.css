@@ -1,0 +1,131 @@
+/* Report Card Template Themes */
+
+/* Default Theme */
+.theme-default {
+  --primary-color: #069A8E;
+  --secondary-color: #A1E3D8;
+  --accent-color: #F7FF93;
+  --text-color: #333;
+  --header-bg: #4D96FF;
+  --header-text: white;
+  --table-even-row: #6BCB77;
+  --table-border: #ddd;
+  --school-title-color: #F55353;
+  --school-title-border: #4D96FF;
+}
+
+/* Modern Theme */
+.theme-modern {
+  --primary-color: #3498db;
+  --secondary-color: #e8f4fc;
+  --accent-color: #2ecc71;
+  --text-color: #2c3e50;
+  --header-bg: #3498db;
+  --header-text: white;
+  --table-even-row: #ecf0f1;
+  --table-border: #bdc3c7;
+  --school-title-color: #2c3e50;
+  --school-title-border: #3498db;
+}
+
+/* Elegant Theme */
+.theme-elegant {
+  --primary-color: #9b59b6;
+  --secondary-color: #f5eef8;
+  --accent-color: #f1c40f;
+  --text-color: #34495e;
+  --header-bg: #8e44ad;
+  --header-text: white;
+  --table-even-row: #f9f2fc;
+  --table-border: #d2b4de;
+  --school-title-color: #34495e;
+  --school-title-border: #9b59b6;
+}
+
+/* Professional Theme */
+.theme-professional {
+  --primary-color: #2c3e50;
+  --secondary-color: #ecf0f1;
+  --accent-color: #e74c3c;
+  --text-color: #2c3e50;
+  --header-bg: #34495e;
+  --header-text: white;
+  --table-even-row: #ecf0f1;
+  --table-border: #bdc3c7;
+  --school-title-color: #2c3e50;
+  --school-title-border: #7f8c8d;
+}
+
+/* Colorful Theme */
+.theme-colorful {
+  --primary-color: #FF5722;
+  --secondary-color: #2196F3;
+  --accent-color: #FFEB3B;
+  --text-color: #212121;
+  --background-color: #FFFFFF;
+  --border-color: #FF9800;
+  --header-bg: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  --header-text: white;
+  --footer-bg: var(--primary-color);
+  --footer-text: white;
+}
+
+/* Custom Theme - Can be modified by users */
+.theme-custom {
+  --primary-color: #4A90E2;
+  --secondary-color: #50E3C2;
+  --accent-color: #F5A623;
+  --text-color: #4A4A4A;
+  --background-color: #FFFFFF;
+  --border-color: #D8D8D8;
+  --header-bg: var(--primary-color);
+  --header-text: white;
+  --footer-bg: var(--secondary-color);
+  --footer-text: var(--text-color);
+}
+
+/* Apply theme variables to elements */
+.themed-report-card {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.themed-report-card .school-title {
+  color: var(--school-title-color);
+  border: 5px solid var(--school-title-border);
+}
+
+.themed-report-card #report-table th {
+  background-color: var(--header-bg);
+  color: var(--header-text);
+}
+
+.themed-report-card #report-table tr:nth-child(even) {
+  background-color: var(--table-even-row);
+}
+
+.themed-report-card #report-table td, 
+.themed-report-card #report-table th {
+  border: 1px solid var(--table-border);
+}
+
+/* Template Layouts */
+.layout-standard {
+  /* Default layout */
+}
+
+.layout-compact {
+  font-size: 90%;
+}
+
+.layout-expanded {
+  font-size: 110%;
+  line-height: 1.5;
+}
+
+/* Print optimized versions */
+@media print {
+  .themed-report-card {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
